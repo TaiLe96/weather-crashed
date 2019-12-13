@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <!----------Header----------->
+    <div class="row1">
+        <h2>Weather Dashboard</h2>
+    </div>
+
+    <!--------------------------------------Search Bar---------------------------------------------->
+    <div class="row2">
+        <form id="city-form" class="col-4">
+            <h4>Search for a City:</h4>
+
+            <input id="select-city" type="search" aria-label="Search">
+            <button id="select-city" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <!--------------------------------------Display Data-------------------------------------------->
+        <div>
+            <div class="container col-8" id="weather-data">
+                <h1 id="city-name"></h1>
+                <p id="temperature"></p>
+                <p id="humidity"></p>
+                <p id="wind-speed"></p>
+                <p id="uv-index"></p>
+            </div>
+            <div class="container col-8" id="day-forecast">
+                <h1>5-Day Forecast:</h1>
+                <div class="card" style="width: 12rem;">
+                    <h2 id="dayOne"></h2>
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p id="temp">test</p>
+                        <p id="humidity">test</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        // function searchForCity(city) {
+        // $("#select-city").on("click", function (event) {
+        //     event.preventDefault()
+        // var city = $("#select-city").val();
+        var apiKey = "4b8af4f937d691aa5fb93b6dd29ba04d";
+        var city = "San Jose"
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + "&units=imperial&appid=" + apiKey;
+        // var queryUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37"
+        // var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&mode=xml" + apiKey;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response)
+            console.log(queryURL)
+
+            $("#city-name").text(response.name)
+            $("#temperature").text("Temperature: " + response.main.temp)
+            $("#humidity").text("Humidity: " + response.main.humidity + "%")
+            $("#wind-speed").text("Wind Speed: " + response.wind.speed + " MPH")
+            $("#uv-index").text("UV Index: ")
+            //Get lat from response
+            var lat = response.coord.lat;
+            //Get lon from response
+            var lon = response.coord.lon;
+            console.log(lat)
+            console.log(lon)
+
+        //============================================Get UV Index==========================================
+            function getUvIndex() {
+                // var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
+                var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon;
+                $.ajax({
+                    url: uvIndex,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(uvIndex)
+                    console.log(lat)
+                    console.log(lon)
+                    $("#uv-index").text("UV Index: " + uvIndex)
+                })
+            }
+            getUvIndex();
+        })
+
+
+        //========================================5 Day forecast==========================================
+        var dayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",us" + "&appid=" + apiKey;
+        $.ajax({
+            url: dayForecast,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response)
+
+            $("#dayOne").append()
+
+        })
+
+    </script>
+
+</body>
+
+
+
+
+</html>
