@@ -25,13 +25,14 @@
         <form id="city-form" class="col-4">
             <h4>Search for a City:</h4>
 
-            <input id="select-city" type="search" aria-label="Search">
-            <button id="select-city" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input id="select-city" type="search" >
+            <button id="search-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <!--------------------------------------Display Data-------------------------------------------->
         <div>
             <div class="container col-8" id="weather-data">
                 <h1 id="city-name"></h1>
+                <h1 id="date">test</h1>
                 <p id="temperature"></p>
                 <p id="humidity"></p>
                 <p id="wind-speed"></p>
@@ -47,22 +48,52 @@
                         <p id="humidity">test</p>
                     </div>
                 </div>
+                <div class="card" style="width: 12rem;">
+                    <h2 id="dayOne"></h2>
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p id="temp">test</p>
+                        <p id="humidity">test</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 12rem;">
+                    <h2 id="dayOne"></h2>
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p id="temp">test</p>
+                        <p id="humidity">test</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 12rem;">
+                    <h2 id="dayOne"></h2>
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p id="temp">test</p>
+                        <p id="humidity">test</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 12rem;">
+                    <h2 id="dayOne"></h2>
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p id="temp">test</p>
+                        <p id="humidity">test</p>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        // function searchForCity(city) {
-        // $("#select-city").on("click", function (event) {
-        //     event.preventDefault()
-        // var city = $("#select-city").val();
+        // $(document).ready(function){
+$("#search-button").on("click", function (event) {
+            event.preventDefault()
+        var city = $(this).attr("#select-city");
+
         var apiKey = "4b8af4f937d691aa5fb93b6dd29ba04d";
-        var city = "San Jose"
+        // var city = "San Jose"
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + "&units=imperial&appid=" + apiKey;
-        // var queryUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37"
-        // var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&mode=xml" + apiKey;
         $.ajax({
             url: queryURL,
             method: "GET"
@@ -71,6 +102,8 @@
             console.log(queryURL)
 
             $("#city-name").text(response.name)
+            $("date").text(response.dt)
+            console.log(response.dt)
             $("#temperature").text("Temperature: " + response.main.temp)
             $("#humidity").text("Humidity: " + response.main.humidity + "%")
             $("#wind-speed").text("Wind Speed: " + response.wind.speed + " MPH")
@@ -81,26 +114,25 @@
             var lon = response.coord.lon;
             console.log(lat)
             console.log(lon)
-
         //============================================Get UV Index==========================================
             function getUvIndex() {
                 // var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
-                var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon;
+                // http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}
+                var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
                 $.ajax({
                     url: uvIndex,
                     method: "GET"
                 }).then(function (response) {
-                    console.log(uvIndex)
+                    console.log(response)
                     console.log(lat)
                     console.log(lon)
-                    $("#uv-index").text("UV Index: " + uvIndex)
+                    $("#uv-index").text("UV Index: " + response.value)
+                    $("#date").text(response.date_iso)
                 })
             }
             getUvIndex();
-        })
-
-
-        //========================================5 Day forecast==========================================
+        });
+        //=============================================5 Day-forecast==========================================
         var dayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",us" + "&appid=" + apiKey;
         $.ajax({
             url: dayForecast,
@@ -108,9 +140,65 @@
         }).then(function (response) {
             console.log(response)
 
-            $("#dayOne").append()
+            $("#dayOne").append(response.coord.date_iso)
 
-        })
+        });
+
+        });
+        // 
+        // var apiKey = "4b8af4f937d691aa5fb93b6dd29ba04d";
+        // // var city = "San Jose"
+        // var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + "&units=imperial&appid=" + apiKey;
+        // $.ajax({
+        //     url: queryURL,
+        //     method: "GET"
+        // }).then(function (response) {
+        //     console.log(response)
+        //     console.log(queryURL)
+
+            // $("#city-name").text(response.name)
+            // $("date").text(response.dt)
+            // console.log(response.dt)
+            // $("#temperature").text("Temperature: " + response.main.temp)
+            // $("#humidity").text("Humidity: " + response.main.humidity + "%")
+            // $("#wind-speed").text("Wind Speed: " + response.wind.speed + " MPH")
+            // $("#uv-index").text("UV Index: ")
+            // //Get lat from response
+            // var lat = response.coord.lat;
+            // //Get lon from response
+            // var lon = response.coord.lon;
+            // console.log(lat)
+            // console.log(lon)
+        //============================================Get UV Index==========================================
+        //     function getUvIndex() {
+        //         // var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
+        //         // http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}
+        //         var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
+        //         $.ajax({
+        //             url: uvIndex,
+        //             method: "GET"
+        //         }).then(function (response) {
+        //             console.log(response)
+        //             console.log(lat)
+        //             console.log(lon)
+        //             $("#uv-index").text("UV Index: " + response.value)
+        //             $("#date").text(response.date_iso)
+        //         })
+        //     }
+        //     getUvIndex();
+        // });
+
+        //========================================5 Day forecast==========================================
+        // var dayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",us" + "&appid=" + apiKey;
+        // $.ajax({
+        //     url: dayForecast,
+        //     method: "GET"
+        // }).then(function (response) {
+        //     console.log(response)
+
+        //     $("#dayOne").append()
+
+        // });
 
     </script>
 
