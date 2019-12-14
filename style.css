@@ -6,7 +6,7 @@
     margin-bottom: 5px;
 }
 
-.col-4 {
+.col-3 {
     background: rgb(214, 213, 213);
     height: 400px;
     float: left;
@@ -33,9 +33,19 @@
     float: left;
     /* height: 400px; */
     background: white;
-    padding-left: 20px;
+    padding-left: 50px;
 }
 
+#city-name{
+    background: white;
+    color: black;
+}
+
+h1 {
+    background: lightblue;
+    color:white;
+}
 .card {
     float: left;
+    display: none;
 }
