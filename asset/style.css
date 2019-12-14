@@ -1,5 +1,8 @@
+body{
+    background: blue;
+}
 .row1 {
-    background: darkgray;
+    background: black;
     color: white;
     text-align: center;
     height: 70px;
@@ -7,8 +10,8 @@
 }
 
 .col-3 {
-    background: rgb(214, 213, 213);
-    height: 400px;
+    background: white;
+    height: 216px;
     float: left;
     text-align: center;
 }
@@ -41,11 +44,13 @@
     color: black;
 }
 
-h1 {
-    background: lightblue;
+h2 {
+    background: black;
     color:white;
 }
 .card {
     float: left;
     display: none;
+    margin-left: 50px;
+    
 }
